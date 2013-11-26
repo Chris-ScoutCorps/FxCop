@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Rules FriendlyName="Custom Rules">
+	<Rule TypeName="HelloWorldRule" Category="CustomRules" CheckId="RS1000">
+		<Name>Demo Rule</Name>
+		<Description>I am an example of a custom FxCop rule</Description>
+		<Url></Url>
+		<Resolution>This method name starts with the letter 'C': {0}. There's no resolution because ain't nothin' wrong wit dat.</Resolution>
+		<MessageLevel Certainty="0">Error</MessageLevel>
+		<Email></Email>
+		<FixCategories>DependsOnFix</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="SkipAuthorizeRule" Category="CustomRules" CheckId="RS1001">
+		<Name>Controllers/Actions with Skip Authorize Attribute</Name>
+		<Description>This controller/action skips authorization and can be accessed without a login.</Description>
+		<Url></Url>
+		<Resolution>Check to make sure this is desired. Very few pages should skip authorization - the login page, the external website, etc.</Resolution>
+		<MessageLevel Certainty="30">Error</MessageLevel>
+		<Email></Email>
+		<FixCategories>DependsOnFix</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="SuspiciousGetRequestsRule" Category="CustomRules" CheckId="RS1002">
+		<Name>Actions that allow HttpGet, but appear to alter data</Name>
+		<Description>This action allows HttpGet requests, but its name indicates that it may be altering data (or it calls a function that appears to alter data).</Description>
+		<Url></Url>
+		<Resolution>The method '{0}' matches keyword{1}. If the action indeed changes data, make sure it only accepts HttpPost requests. If it doesn't, consider renaming it.</Resolution>
+		<MessageLevel Certainty="75">Error</MessageLevel>
+		<Email></Email>
+		<FixCategories>DependsOnFix</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="SQLInjectionRule" Category="CustomRules" CheckId="RS1013">
+		<Name>Potential SQL injection</Name>
+		<Description>Using a 'dirty' string as a SQL command. This string has been concatenated with the method parameters or other strings of unknown origins.</Description>
+		<Url></Url>
+		<Resolution>Dirty variable: {0} marked dirty at: {1} Review for possible SQL injection. Ideally, consider using parameterized queries or a stored procedure instead of dynamic SQL. Otherwise, ensure that the input is sanitized (no single quotes if it's a string, semicolons otherwise) and/or that it's always coming from a trustworthy source.</Resolution>
+		<MessageLevel Certainty="25">Warning</MessageLevel>
+		<Email></Email>
+		<FixCategories>DependsOnFix</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="MissingRoleCheckRule" Category="CustomRules" CheckId="RS1004">
+		<Name>Controllers missing AccessDeniedAuthorizeAttribute</Name>
+		<Description>This controller/action can be accessed by any user.</Description>
+		<Url></Url>
+		<Resolution>Check to make sure this is desired. Some pages should require elevated permissions / specific roles.</Resolution>
+		<MessageLevel Certainty="20">Warning</MessageLevel>
+		<Email></Email>
+		<FixCategories>DependsOnFix</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="UnloggedEmailRule" Category="CustomRules" CheckId="RS1005">
+		<Name>Emails sent using the unlogged email function</Name>
+		<Description>CDS.Core.Utils isn't able to do data access - these emails will go unlogged.</Description>
+		<Url></Url>
+		<Resolution>You almost certainly want to use CDS.Web.Email.SendLoggedMail.</Resolution>
+		<MessageLevel Certainty="80">Error</MessageLevel>
+		<Email></Email>
+		<FixCategories>NonBreaking</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="JSONAllowGetRule" Category="CustomRules" CheckId="RS1007">
+		<Name>JSON AllowGet</Name>
+		<Description>This JSON result may allow HttpGet requests.</Description>
+		<Url></Url>
+		<Resolution>JSON requests are often modifying user data, displaying users' private data, or performing actions. If it's doing anything other than returning non-private data, it shouldn't allow GETs.</Resolution>
+		<MessageLevel Certainty="50">Warning</MessageLevel>
+		<Email></Email>
+		<FixCategories>DependsOnFix</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="MissingHttpMethodRule" Category="CustomRules" CheckId="RS1008">
+		<Name>Missing HTTP Method Attribute</Name>
+		<Description>This Action doesn't specify HttpGet or HttpPost.</Description>
+		<Url></Url>
+		<Resolution>Allow only POST for any actions that may alter data. Requests that GET data are safe to accept POSTS, but they're worth reviewing.</Resolution>
+		<MessageLevel Certainty="10">Warning</MessageLevel>
+		<Email></Email>
+		<FixCategories>DependsOnFix</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="UnloggedThreadingRule" Category="CustomRules" CheckId="RS1009">
+		<Name>Background threads started without using CDS.Threading</Name>
+		<Description>Background threads don't contain state (for example, the HttpContext). Errors on a background thread will not be tied back to the original web request or user.</Description>
+		<Url></Url>
+		<Resolution>You almost certainly want to use CDS.Threading.TaskFactory.StartNew().</Resolution>
+		<MessageLevel Certainty="70">Error</MessageLevel>
+		<Email></Email>
+		<FixCategories>NonBreaking</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="XSSRule" Category="CustomRules" CheckId="RS1010">
+		<Name>Review functions for XSS vulnerabilities</Name>
+		<Description>Built-in MVC HTML functions (except for Html.Raw, of course) automatically HTML encode potentially dangerous strings, preventing the injection of script tags. Any function we write should be reviewed to ensure that it properly escapes HTML.</Description>
+		<Url></Url>
+		<Resolution>Make sure this function properly escapes HTML tags.</Resolution>
+		<MessageLevel Certainty="20">Warning</MessageLevel>
+		<Email></Email>
+		<FixCategories>NonBreaking</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="StaticDisposableRule" Category="CustomRules" CheckId="RS1011">
+		<Name>IDisposable types used as static fields</Name>
+		<Description>IDisposable classes are inteded to be disposed when they're no longer in use, and typically have state that is not thread safe. You may be misusing a context across multiple threads by declaring one as static, or you may be maintaining an instance in memory unnecessarily.</Description>
+		<Url></Url>
+		<Resolution>If the class has context that doesnt't apply across the entire application (this includes EntityFramework's ObjectContext), change this to an instance field. Consider whther this object should be in memory perpetually.</Resolution>
+		<MessageLevel Certainty="70">Error</MessageLevel>
+		<Email></Email>
+		<FixCategories>Breaking</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="ContextInDataDLLRule" Category="CustomRules" CheckId="RS1012">
+		<Name>Accessing a .Current context instance in a data DLL</Name>
+		<Description>If this function's results are ever cached, the contextual inputs will be missing from the cache key, leading to improper cache collision. If this function is ever used in a remoting situation, this context will not be available at all.</Description>
+		<Url></Url>
+		<Resolution>Pass whatever components of the context '{0}' are needed as method parameters.</Resolution>
+		<MessageLevel Certainty="90">Error</MessageLevel>
+		<Email></Email>
+		<FixCategories>Breaking</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+	<Rule TypeName="SafeSqlBuilderRule" Category="CustomRules" CheckId="RS1014">
+		<Name>SafeSQLBuilder not acutally safe.</Name>
+		<Description>This type is labeled as a safe SQL builder but it's doing something shady.</Description>
+		<Url></Url>
+		<Resolution>If you're accepting strings from user input, or from the database, it's not safe. Use constants, literals, and parameters to build your dynamic SQL, yo! Or stop labeling it as 'safe'.</Resolution>
+		<MessageLevel Certainty="90">Error</MessageLevel>
+		<Email></Email>
+		<FixCategories>Breaking</FixCategories>
+		<Owner>Chris Shaffer</Owner>
+	</Rule>
+</Rules>
