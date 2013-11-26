@@ -116,9 +116,8 @@ namespace FxCopUpdater
             var toRemove = refsNode.ChildNodes.Cast<XmlNode>().Where(w => w.Name.Equals("Directory", StringComparison.OrdinalIgnoreCase)).ToList();
             foreach (var tr in toRemove) refsNode.RemoveChild(tr);
 
-            AppendDirectoryNode(template, refsNode, "$(ProjectDir)/../../matrix/bin-external/");
-            AppendDirectoryNode(template, refsNode, "$(ProjectDir)/../../bin-external/");
-            AppendDirectoryNode(template, refsNode, "$(ProjectDir)/SupportingBins/");
+			// stuff that may be relevant to your organization/setup
+            // AppendDirectoryNode(template, refsNode, "$(ProjectDir)/../../whatever/lib/");
 
             AppendDirectoryNode(template, refsNode, ProgramFilesx86Path() + "/Microsoft ASP.NET/ASP.NET MVC 3/Assemblies/");
             AppendDirectoryNode(template, refsNode, ProgramFilesx86Path() + "/Microsoft ASP.NET/ASP.NET MVC 4/Assemblies/");
@@ -171,7 +170,7 @@ namespace FxCopUpdater
 
             if (pa.TemplateFile == null || pa.TargetsDirectory == null)
             {
-                Console.WriteLine("Usage: FxCop Runner [FxCop rules/exclusions file] [targets directory]");
+                Console.WriteLine("Usage: FxCopUpdater [FxCop rules/exclusions file] [targets directory]");
                 Environment.Exit(1);
             }
 
