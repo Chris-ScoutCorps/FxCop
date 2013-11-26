@@ -24,7 +24,8 @@ namespace CustomRules
             {
                 while (type != null)
                 {
-                    if (type.Attributes.Any(a => a.Type.FullName == "CDS.Web.Authorization.AccessDeniedAuthorizeAttribute"))
+                    //MOD: we use a custom attribute here (mostly just to display a friendly error). You may also do something like that.
+                    if (type.Attributes.Any(a => a.Type.FullName == "System.Web.Mvc.AuthorizeAttribute"))
                     {
                         return Problems; //it's got a capability check, no worries bra
                     }

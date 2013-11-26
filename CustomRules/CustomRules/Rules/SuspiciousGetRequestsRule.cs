@@ -38,7 +38,7 @@ namespace CustomRules
             if (call.Method() != null)
             {
                 if (!call.Method().DeclaringType.DeclaringModule.ContainingAssembly.IsSystemAssembly() //only need to check our own stuff, we can't do data access through a MSFT function from our web projects
-                    && call.Method().DeclaringType.DeclaringModule.ContainingAssembly.Name != "CDS.Core.Utils"
+                    && call.Method().DeclaringType.DeclaringModule.ContainingAssembly.Name != "CDS.Core.Utils" //MOD: we've whitelisted some stuff, here
                     && call.Method().DeclaringType.DeclaringModule.ContainingAssembly.Name != "CDS.ProxyFactory"
                     && !call.Method().IsPropertyAccessor()) //call me overconfident, but I think we can assume property accessors aren't writing to the database
                 {

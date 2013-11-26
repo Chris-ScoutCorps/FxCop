@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Rules FriendlyName="Custom Rules">
-	<Rule TypeName="HelloWorldRule" Category="CustomRules" CheckId="RS1000">
+	<Rule TypeName="HelloWorldRule" Category="CustomRules" CheckId="CR1000">
 		<Name>Demo Rule</Name>
 		<Description>I am an example of a custom FxCop rule</Description>
 		<Url></Url>
@@ -10,7 +10,7 @@
 		<FixCategories>DependsOnFix</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="SkipAuthorizeRule" Category="CustomRules" CheckId="RS1001">
+	<Rule TypeName="SkipAuthorizeRule" Category="CustomRules" CheckId="CR1001">
 		<Name>Controllers/Actions with Skip Authorize Attribute</Name>
 		<Description>This controller/action skips authorization and can be accessed without a login.</Description>
 		<Url></Url>
@@ -20,7 +20,7 @@
 		<FixCategories>DependsOnFix</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="SuspiciousGetRequestsRule" Category="CustomRules" CheckId="RS1002">
+	<Rule TypeName="SuspiciousGetRequestsRule" Category="CustomRules" CheckId="CR1002">
 		<Name>Actions that allow HttpGet, but appear to alter data</Name>
 		<Description>This action allows HttpGet requests, but its name indicates that it may be altering data (or it calls a function that appears to alter data).</Description>
 		<Url></Url>
@@ -30,7 +30,7 @@
 		<FixCategories>DependsOnFix</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="SQLInjectionRule" Category="CustomRules" CheckId="RS1013">
+	<Rule TypeName="SQLInjectionRule" Category="CustomRules" CheckId="CR1013">
 		<Name>Potential SQL injection</Name>
 		<Description>Using a 'dirty' string as a SQL command. This string has been concatenated with the method parameters or other strings of unknown origins.</Description>
 		<Url></Url>
@@ -40,7 +40,7 @@
 		<FixCategories>DependsOnFix</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="MissingRoleCheckRule" Category="CustomRules" CheckId="RS1004">
+	<Rule TypeName="MissingRoleCheckRule" Category="CustomRules" CheckId="CR1004">
 		<Name>Controllers missing AccessDeniedAuthorizeAttribute</Name>
 		<Description>This controller/action can be accessed by any user.</Description>
 		<Url></Url>
@@ -50,7 +50,7 @@
 		<FixCategories>DependsOnFix</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="UnloggedEmailRule" Category="CustomRules" CheckId="RS1005">
+	<Rule TypeName="UnloggedEmailRule" Category="CustomRules" CheckId="CR1005">
 		<Name>Emails sent using the unlogged email function</Name>
 		<Description>CDS.Core.Utils isn't able to do data access - these emails will go unlogged.</Description>
 		<Url></Url>
@@ -60,7 +60,7 @@
 		<FixCategories>NonBreaking</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="JSONAllowGetRule" Category="CustomRules" CheckId="RS1007">
+	<Rule TypeName="JSONAllowGetRule" Category="CustomRules" CheckId="CR1007">
 		<Name>JSON AllowGet</Name>
 		<Description>This JSON result may allow HttpGet requests.</Description>
 		<Url></Url>
@@ -70,7 +70,7 @@
 		<FixCategories>DependsOnFix</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="MissingHttpMethodRule" Category="CustomRules" CheckId="RS1008">
+	<Rule TypeName="MissingHttpMethodRule" Category="CustomRules" CheckId="CR1008">
 		<Name>Missing HTTP Method Attribute</Name>
 		<Description>This Action doesn't specify HttpGet or HttpPost.</Description>
 		<Url></Url>
@@ -80,7 +80,7 @@
 		<FixCategories>DependsOnFix</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="UnloggedThreadingRule" Category="CustomRules" CheckId="RS1009">
+	<Rule TypeName="UnloggedThreadingRule" Category="CustomRules" CheckId="CR1009">
 		<Name>Background threads started without using CDS.Threading</Name>
 		<Description>Background threads don't contain state (for example, the HttpContext). Errors on a background thread will not be tied back to the original web request or user.</Description>
 		<Url></Url>
@@ -90,7 +90,7 @@
 		<FixCategories>NonBreaking</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="XSSRule" Category="CustomRules" CheckId="RS1010">
+	<Rule TypeName="XSSRule" Category="CustomRules" CheckId="CR1010">
 		<Name>Review functions for XSS vulnerabilities</Name>
 		<Description>Built-in MVC HTML functions (except for Html.Raw, of course) automatically HTML encode potentially dangerous strings, preventing the injection of script tags. Any function we write should be reviewed to ensure that it properly escapes HTML.</Description>
 		<Url></Url>
@@ -100,7 +100,7 @@
 		<FixCategories>NonBreaking</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="StaticDisposableRule" Category="CustomRules" CheckId="RS1011">
+	<Rule TypeName="StaticDisposableRule" Category="CustomRules" CheckId="CR1011">
 		<Name>IDisposable types used as static fields</Name>
 		<Description>IDisposable classes are inteded to be disposed when they're no longer in use, and typically have state that is not thread safe. You may be misusing a context across multiple threads by declaring one as static, or you may be maintaining an instance in memory unnecessarily.</Description>
 		<Url></Url>
@@ -110,7 +110,7 @@
 		<FixCategories>Breaking</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="ContextInDataDLLRule" Category="CustomRules" CheckId="RS1012">
+	<Rule TypeName="ContextInDataDLLRule" Category="CustomRules" CheckId="CR1012">
 		<Name>Accessing a .Current context instance in a data DLL</Name>
 		<Description>If this function's results are ever cached, the contextual inputs will be missing from the cache key, leading to improper cache collision. If this function is ever used in a remoting situation, this context will not be available at all.</Description>
 		<Url></Url>
@@ -120,7 +120,7 @@
 		<FixCategories>Breaking</FixCategories>
 		<Owner>Chris Shaffer</Owner>
 	</Rule>
-	<Rule TypeName="SafeSqlBuilderRule" Category="CustomRules" CheckId="RS1014">
+	<Rule TypeName="SafeSqlBuilderRule" Category="CustomRules" CheckId="CR1014">
 		<Name>SafeSQLBuilder not acutally safe.</Name>
 		<Description>This type is labeled as a safe SQL builder but it's doing something shady.</Description>
 		<Url></Url>

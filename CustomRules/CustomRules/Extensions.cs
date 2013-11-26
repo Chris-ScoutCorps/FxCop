@@ -85,6 +85,7 @@ namespace CustomRules
 
         public static bool IsDataDll(this AssemblyNode dll)
         {
+            //MOD: this is our data access library. Insert yours here.
             return dll.AssemblyReferences.Any(a => a.Name.ToUpper() == "CDS.ORM");
         }
 
