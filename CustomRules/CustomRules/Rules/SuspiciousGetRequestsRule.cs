@@ -49,7 +49,7 @@ namespace CustomRules
             base.VisitMethodCall(call);
         }
 
-        private static readonly string[] _alterDataKeywords = new string[] { "Set", "Save", "Alter", "Update", "Change", "Create", "Edit", "Rename", "Delete", "Add", "Remove", "Upload", "Share" };
+        private static readonly string[] _alterDataKeywords = new string[] { "Set", "Save", "Alter", "Update", "Change", "Create", "Edit", "Rename", "Delete", "Add", "Remove", "Upload", "Share", "Transfer", "Move" };
         private bool KeywordViolations(Member toCheck)
         {
             string nameToMatch = toCheck.Name.Name;
