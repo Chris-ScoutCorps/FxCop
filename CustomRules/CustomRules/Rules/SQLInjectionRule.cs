@@ -126,7 +126,11 @@ namespace CustomRules
                         }
                     }
 
-                    if (!_dirty.IsSafe(assignment.Source))
+                    if (_dirty.IsSafe(assignment.Source))
+                    {
+                        _dirty.MarkSafe(assignment.Target);
+                    }
+                    else
                     {
                         _dirty.MarkDirty(assignment.Target, assignment.Source, assignment.SourceContext, false);
                     }
