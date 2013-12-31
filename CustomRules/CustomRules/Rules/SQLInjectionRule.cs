@@ -24,6 +24,7 @@ namespace CustomRules
 
         bool _problemRound = false;
         DirtySafeCollection _dirty = null;
+        HashSet<int> _params = null;
 
         public override ProblemCollection Check(Member member)
         {
@@ -35,6 +36,7 @@ namespace CustomRules
 
                     _problemRound = false;
                     _dirty = new DirtySafeCollection() { SafetyPass = true };
+                    _params = new HashSet<int>();
 
                     var meth = member as Method;
                     if (meth != null && meth.Parameters != null)
@@ -67,6 +69,7 @@ namespace CustomRules
         {
             foreach (var p in parameters.Where(w => !IsTypeSafe(w.Type)))
             {
+                _params.Add(p.UniqueKey);
                 if (IsSqlExecutingFunction(_currentMember))
                     _dirty.MarkSafe(p);
                 else
@@ -78,6 +81,9 @@ namespace CustomRules
 
         public override void VisitAssignmentStatement(AssignmentStatement assignment)
         {
+            if (_params.Contains(assignment.Source.UniqueKey))
+                _params.Add(assignment.Target.UniqueKey);
+
             if (!IsTypeSafe(assignment.Target.Type))
             {
                 if (IsConst(assignment.Source))
@@ -202,7 +208,10 @@ namespace CustomRules
             {
                 if (returnInstruction.Expression != null && IsStringIsh(returnInstruction.Expression.Type) && !IsConst(returnInstruction.Expression) && !_dirty.IsSafe(returnInstruction.Expression))
                 {
-                    Problems.Add(new Problem(this.GetResolution(returnInstruction.Expression.GetName(), _dirty.GetDirtyDetails(returnInstruction.Expression, returnInstruction, true)), returnInstruction.SourceContext));
+                    if (!_params.Contains(returnInstruction.Expression.UniqueKey) || _dirty.MarkedDirtyInsideMethod(returnInstruction.Expression)) //if the return IS a param, then it's also got to be marked dirty inside the method (like if you pass a SQL builder in, append stuff to it, and then return it back out)
+                    {
+                        Problems.Add(new Problem(this.GetResolution(returnInstruction.Expression.GetName(), _dirty.GetDirtyDetails(returnInstruction.Expression, returnInstruction, true)), returnInstruction.SourceContext));
+                    }
                 }
                 
                 var currentMethod = _currentMember as Method;
@@ -283,6 +292,12 @@ namespace CustomRules
         {
             if ((SafetyPass && !asParam) || n == null)
                 return;
+
+            //if you're marking dirty indirectly from a param, it's still dirty asParam
+            if (!asParam && from != null && _dirtyVars.ContainsKey(from.UniqueKey) && _dirtyVars[from.UniqueKey].Count == 1 && _dirtyVars[from.UniqueKey].Single().AsParam)
+            {
+                asParam = true;
+            }
 
             if (_safeVars.Contains(n.UniqueKey))
                 _safeVars.Remove(n.UniqueKey);
